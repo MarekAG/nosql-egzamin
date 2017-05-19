@@ -13,6 +13,7 @@ var match = { $match: {
   }
 }
 };
+
 var group = {
   $group: {
     _id: null,

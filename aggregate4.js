@@ -13,7 +13,7 @@ var match = {
 };
 
 var group = {
-  "$group": {
+  $group: {
     _id: "$city",
     count: {
       $sum: 1
@@ -47,14 +47,17 @@ var aggregate4b = db.terrorism.aggregate([match, sortByCount, limit], {
 
 
 var groupWithWeapons = {
-  "$group": {
+  $group: {
     _id: {
       city: "$city",
       weapon: "$weaptype1_txt"
+    },
+    count: {
+      $sum: 1
     }
   }
 };
 
-var aggregate4c = db.terrorism.aggregate([match, groupWithWeapons, count, sort, limit], {
+var aggregate4c = db.terrorism.aggregate([match, groupWithWeapons, sort, limit], {
   explain: false
 }).pretty();

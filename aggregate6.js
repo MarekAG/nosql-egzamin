@@ -1,7 +1,7 @@
 var conn = new Mongo();
 var db = conn.getDB('nosql');
 
-jakiego typu ataków było najwięcej w danym regionie świata
+// jakiego typu ataków było najwięcej w danym regionie świata
 
 var group = {
   $group: {
