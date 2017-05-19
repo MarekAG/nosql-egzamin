@@ -3,7 +3,7 @@
 Wszystkie agregacje znajdują się w osobnych plikach i są gotowe do uruchomienia, schemat nazewnictwa:
 aggregate{nr agregacji w tym pliku}.js
 
-### 1. Regiony świata, w których najczęściej dochodzi do zamachów (w ostatniej dekadzie)
+### 1. Regiony świata, w których najczęściej dochodzi do zamachów (w ostatniej dekadzie).
 
 
 Usuwamy "nieznane" regiony:
@@ -170,7 +170,7 @@ Wynik:
 Wnioski: 
 Porwania trwają średnio około miesiąca. Inną sprawą jest to czy porwani po miesiącu giną czy wracają do domów. Magia statystyki.
 
-### 3. Polska
+### 3. Polska.
 
 Czy w Polsce zdarzały się zamachy terrorystyczne?
 Jeśli tak, to czy któryś się powiódł? Czy były ofiary?
