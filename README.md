@@ -14,12 +14,12 @@ Informacje o komputerze na którym były wykonywane obliczenia:
 
 ###Dane
 
-[Global Terrorism Database- Full Data File, June 2016 Release](https://www.kaggle.com/START-UMD/gtd)
+[Global Terrorism Database- Full Data File, June 2016 Release](https://www.kaggle.com/START-UMD/gtd).
 
-[Plik w formacie CSV spakowany do ZIP](https://www.kaggle.com/START-UMD/gtd/downloads/globalterrorismdb_0616dist.csv.zip) 
+[Plik w formacie CSV spakowany do ZIP](https://www.kaggle.com/START-UMD/gtd/downloads/globalterrorismdb_0616dist.csv.zip) =.
 
-Rozmiar bazy: 133 MB
-Liczba rekordów: 156 772
+Rozmiar bazy: 133 MB.
+Liczba rekordów: 156 772.
 
 ###Przykładowy rekord
 ```json
@@ -195,4 +195,6 @@ W tym miejscu, ze względu na obszernosć opracowanych danych, przedstawione zos
 | ransom | czy żądano okupu |
 | ransomamt | jakiej wysokości okupu żądano |
 
+### Agregacje
 
+Znajdują się w pliku [Aggregates.pdf](aggregates.pdf).
