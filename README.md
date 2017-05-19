@@ -16,7 +16,7 @@ Informacje o komputerze na którym były wykonywane obliczenia:
 
 [Global Terrorism Database- Full Data File, June 2016 Release](https://www.kaggle.com/START-UMD/gtd).
 
-[Plik w formacie CSV spakowany do ZIP](https://www.kaggle.com/START-UMD/gtd/downloads/globalterrorismdb_0616dist.csv.zip) =.
+[Plik w formacie CSV spakowany do ZIP](https://www.kaggle.com/START-UMD/gtd/downloads/globalterrorismdb_0616dist.csv.zip).
 
 Rozmiar bazy: 133 MB.
 Liczba rekordów: 156 772.
@@ -194,6 +194,16 @@ W tym miejscu, ze względu na obszernosć opracowanych danych, przedstawione zos
 | ndays | ile dni przetrzymywano porwanych / zakładników |
 | ransom | czy żądano okupu |
 | ransomamt | jakiej wysokości okupu żądano |
+
+### Import danych
+
+```shell
+mongoimport --db nosql -c terrorism --type csv --headerline --file globalterrorismdb_0616dist.csv
+```
+
+Średni czas z pięciu importów: 28,740s.
+
+Użycie zasobów: ![](resources.jpg) 
 
 ### Agregacje
 
