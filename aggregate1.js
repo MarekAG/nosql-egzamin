@@ -13,7 +13,7 @@ var match = {
 };
 
 var group = {
-  "$group": {
+  $group: {
     _id: "$region",
     region: {
       $first: "$region_txt"
@@ -36,18 +36,21 @@ var project = {
   }
 };
 
-var aggregate1a = db.terrorism.aggregate([match, group, sort, project]);
+var aggregate1a = db.terrorism.aggregate([match, group, sort, project], {
+  explain: false
+}).pretty();
 
 // w ostatniej dekadzie
 
-var match2 = $match: {
-  region: {
-    $ne: "Unknown"
-  },
-  iyear: {
-    $gte: 2015
+var match2 = {
+  $match: {
+    region: {
+      $ne: "Unknown"
+    },
+    iyear: {
+      $gte: 2005
+    }
   }
-}
 };
 
 var aggregate1b = db.terrorism.aggregate([match2, group, sort, project], {
