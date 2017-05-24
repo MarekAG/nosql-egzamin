@@ -7,7 +7,7 @@ aggregate{nr agregacji w tym pliku}.js
 
 
 Usuwamy "nieznane" regiony:
-```
+```js
 var match = {
   $match: {
     region: {
@@ -18,7 +18,7 @@ var match = {
 ```
 
 Grupujemy po id regionu i zapamiętujemy jego nazwę, oraz zliczamy zamachy:
-```
+```js
 var group = {
   $group: {
     _id: "$region",
@@ -33,7 +33,7 @@ var group = {
 ```
 
 Sortujemy po ilości zamachów:
-```
+```js
 var sort = {
   $sort: {
     count: -1
@@ -42,7 +42,7 @@ var sort = {
 ```
 
 Usuwamy z wyniku niepotrzebne nam pole "_id":
-```
+```js
 var project = {
   $project: {
     _id: 0
@@ -51,13 +51,13 @@ var project = {
 ```
 
 Składamy zapytanie w całość:
-```
+```js
 var aggregate1a = db.terrorism.aggregate([match, group, sort, project]);
 
 ```
 
 Otrzymaliśmy ranking regionów świata najbardziej dotkniętych zamachami terrorystycznymi od roku 1970. Aby otrzymać dane z ostatniej dekady musimy zrobić małą zmianę (zaznaczam, że dane sięgają początku roku 2016):
-```
+```js
 var match2 = {
   $match: {
     region: {
@@ -76,7 +76,7 @@ var aggregate1b = db.terrorism.aggregate([match2, group, sort, project], {
 ```
 
 Wynik pierwszego zapytania:
-```
+```js
 { "region" : "Middle East & North Africa", "count" : 40422 }
 { "region" : "South Asia", "count" : 37841 }
 { "region" : "South America", "count" : 18628 }
@@ -93,7 +93,7 @@ Wynik pierwszego zapytania:
 ```
 ![](a.jpeg) 
 Oraz drugiego:
-```
+```js
 { "region" : "Middle East & North Africa", "count" : 29297 }
 { "region" : "South Asia", "count" : 28288 }
 { "region" : "Sub-Saharan Africa", "count" : 8348 }
@@ -121,7 +121,7 @@ Oczywiście chodzi tutaj głownie o porwania.
 
 Najpierw wybieramy te zdarzenia, w których doszło do porwania. Tutaj mamy dwie możliwości: możemy uwzględnić te, których długość trwała 0 dni lub nie. Oczywiście zmieni nam to odrobinę średnią. 
 Porwania, których długość to 0 dni to porwania krótkie, których czas liczony jest raczej w godzinach. Dla uwzględniania tego faktu postanowiłem ująć takie porwania w średniej:
-```
+```js
 var match = { $match: {
   ishostkid: {
     $eq: 1
@@ -134,7 +134,7 @@ var match = { $match: {
 ```
 
 Nasze grupowanie sprowadza się do wyliczenia średniej ze wszystkich pasujących rekordów:
-```
+```js
 var group = {
   $group: {
     _id: null,
@@ -146,7 +146,7 @@ var group = {
 ```
 
 Dla czytelności możemy pominąć "_id":
-```
+```js
 var project = {
   $project: {
     _id: 0
@@ -155,14 +155,14 @@ var project = {
 ```
 
 Składamy agregację w całość:
-```
+```js
 var aggregate2 = db.terrorism.aggregate([match, group, project], {
   explain: false
 }).pretty();
 ```
 
 Wynik:
-```
+```js
 { "avg" : 35.87450980392157 }
 
 ```
@@ -177,7 +177,7 @@ Jeśli tak, to czy któryś się powiódł? Czy były ofiary?
 Sprawdźmy to!
 
 161 to ID naszego kraju:
-```
+```js
 var match = {
   $match: {
     country: {
@@ -188,7 +188,7 @@ var match = {
 ```
 
 Grupujemy i sumujemy poszczególne wartości:
-```
+```js
 var group = {
   $group: {
     _id: "$country",
@@ -209,14 +209,14 @@ var group = {
 ```
 
 Składamy wszystko w całość:
-```
+```js
 var aggregate3 = db.terrorism.aggregate([match, group], {
   explain: false
 }).pretty();
 ```
 
 Wynik (widać dlaczego w poprzednich zapytaniach pomijaliśmy ID):
-```
+```js
 {
 	"_id" : 161,
 	"liczba zamachow" : 34,
@@ -236,7 +236,7 @@ Narzędzie terroru nie jest może idealnym określeniem, ale czy, na przykład, 
 
 
 Na początek usuwamy "śmieci", czyli zamachy, gdzie miasto jest nieznane:
-```
+```js
 var match = {
   $match: {
     city: {
@@ -247,7 +247,7 @@ var match = {
 ```
 
 Grupujemy po mieście:
-```
+```js
 var group = {
   $group: {
     _id: "$city",
@@ -259,7 +259,7 @@ var group = {
 ```
 
 Sortujemy malejąco:
-```
+```js
 var sort = {
   $sort: {
     count: -1
@@ -268,21 +268,21 @@ var sort = {
 ```
 
 I wybieramy pierwszą, niechlubną, dziesiątkę:
-```
+```js
 var limit = {
   $limit: 10
 };
 ```
 
 Łączymy wszystko w całość:
-```
+```js
 var aggregate4a = db.terrorism.aggregate([match, group, sort, limit], {
   explain: false
 }).pretty();
 ```
 
 Wynik:
-```
+```js
 { "_id" : "Baghdad", "count" : 6237 }
 { "_id" : "Karachi", "count" : 2530 }
 { "_id" : "Lima", "count" : 2358 }
@@ -301,7 +301,7 @@ Większość miast na tej liście nie powinno być zaskoczeniem. Dziwić może j
 
 Ciekawostka:
 W Mongo 3.4 to zapytanie może uprościć. Zamiast osobno grupować i sortować wystarczy użyć *$sortByCount*:
-```
+```js
 var sortByCount = {
   $sortByCount: "$city"
 };
@@ -314,7 +314,7 @@ var aggregate4b = db.terrorism.aggregate([match, sortByCount, limit], {
 Oczywiście wynik takiego zapytania jest dokłanie taki sam. Również szybkość działania się nie zmienia. Dlaczego? Wystarczy zmienić *explain* na *true* i okaże się, że plan wykonania jest taki sam jak w poprzednim przypadku. Tak więc *sortByCount* to jedynie tzw. "cukier syntaktyczny".
 
 A teraz sprawdźmy jakie "narzędzia terroru" najczęściej wykorzystywanow tych miastach:
-```
+```js
 var groupWithWeapons = {
   $group: {
     _id: {
@@ -333,7 +333,7 @@ var aggregate4c = db.terrorism.aggregate([match, groupWithWeapons, sort, limit],
 ```
 
 Wynik:
-```
+```js
 {
 	"_id" : {
 		"city" : "Baghdad",
@@ -408,7 +408,7 @@ Zdecydowanie najpopularniejsze wśród terrorystów są materiały wybuchowe.
 Poprzednia agregacja daje nam pewną podpowiedź. Ale po kolei:
 
 Wybieramy te zamachy, w których ktoś zginął:
-```
+```js
 var match = {
     $match: {
       nkill: {
@@ -419,7 +419,7 @@ var match = {
 ```
 
 Grupujemy po typie broni i usuwamy to co po przecinku (to nie tak, że można kogoś trochę zabić, to po prostu statystyka):
-```
+```js
   var group = {
     $group: {
       _id: {
@@ -435,7 +435,7 @@ Grupujemy po typie broni i usuwamy to co po przecinku (to nie tak, że można ko
 ```
 
 Sortujemy malejąco po liczbie ofiar i wybieramy 10 pierwszych wyników:
-```
+```js
   var sort = {
     $sort: {
       zabitych: -1
@@ -448,14 +448,14 @@ Sortujemy malejąco po liczbie ofiar i wybieramy 10 pierwszych wyników:
 ```
 
 Składamy zapytanie w całość:
-```
+```js
   var aggregate5 = db.terrorism.aggregate([match, group, sort, limit], {
     explain: false
   }).pretty();
 ```
 
 Wynik:
-```
+```js
 { "_id" : { "bron" : "Firearms" }, "zabitych" : 156350 }
 { "_id" : { "bron" : "Explosives/Bombs/Dynamite" }, "zabitych" : 141581 }
 { "_id" : { "bron" : "Unknown" }, "zabitych" : 31840 }
@@ -482,7 +482,7 @@ A jednak nie materiały wybuchowe. O włos wyprzedziła je broń palna. "Melee" 
 Może da się to zrobić prościej. Ja męczyłem się długo.
 
 Grupujemy po regionie i typie ataku:
-```
+```js
 var group = {
   $group: {
     "_id": {
@@ -497,7 +497,7 @@ var group = {
 ```
 
 Sortujemy po raz pierwszy:
-```
+```js
 var sort = {
   $sort: {
     "countTypes": -1
@@ -506,7 +506,7 @@ var sort = {
 ```
 
 Grupujemy kolejny raz ale teraz tworząc podobiekty odpowiadające za typy ataku:
-```
+```js
 var secondGroup = {
   $group: {
     "_id": "$_id.region",
@@ -524,7 +524,7 @@ var secondGroup = {
 ```
 
 Sortujemy kolejny raz:
-```
+```js
 var secondSort = {
   $sort: {
     "liczba": -1
@@ -533,7 +533,7 @@ var secondSort = {
 ```
 
 Chcemy tylko pierwszy obiekt z tablicy typów (już posortowanej) i "liczba":
-```
+```js
 var project = {
   $project: {
     "typy": {
@@ -545,14 +545,14 @@ var project = {
 ```
 
 Składamy agregację w całość:
-```
+```js
 var aggregate6 = db.terrorism.aggregate([group, sort, secondGroup, secondSort, project], {
   explain: false
 }).pretty();
 ```
 
 Wynik:
-```
+```js
 {
 	"_id" : "Middle East & North Africa",
 	"liczba" : 40422,
@@ -682,7 +682,7 @@ Prawie wszędzie materiały wybuchowe wygrywają.
 ### 7. Atak w którym było najwięcej rannych i zabitych.
 
 Wybieramy te ataki, które mają jakichś rannych i zabitych:
-```
+```js
 var match = {
   $match: {
     nkill: {
@@ -696,7 +696,7 @@ var match = {
 ```
 
 Dodajemy liczbę rannych i zabitych:
-```
+```js
 var project = {
   $project: {
     "liczba ofiar": {
@@ -706,7 +706,7 @@ var project = {
 };
 ```
 Wybieramy największą wartość:
-```
+```js
 var sort = {
   $sort: {
     "liczba ofiar": -1
@@ -718,14 +718,14 @@ var limit = {
 };
 ```
 Składamy wszystko w całość:
-```
+```js
 var aggregate7a = db.terrorism.aggregate([match, project, sort, limit], {
   explain: false
 })
 ```
 
 Wynik:
-```
+```js
 { "_id" : ObjectId("591ead90043ea5be6ffcd6f3"), "liczba ofiar" : 5513 }
 
 ```
@@ -733,7 +733,7 @@ Wynik:
 Wnioski:
 Wynik jest dobry, ale zapytanie złe. W pierwszej fazie użyliśmy logicznego AND zamiast OR. Tego drugiego nie mogliśmy użyć, bo kolumna przyjmuje również wartości nieliczbowe i w kolejnych etapach agregacja by się "wykrzaczyła". Możemy to obejść używając na przykład instrukcji *$switch*:
 
-```
+```js
 var match2 = {
   $match: {
     $or: [{
@@ -807,7 +807,7 @@ Wynik może i ten sam, ale zapytanie tym razem poprawne.
 ### 8. Atak, w którym uczestniczyło najwięcej terrorystów.
 
 Wybieramy te ataki, w których jakiś terrorysta na pewno uczestniczył:
-```
+```js
 var match = {
   $match: {
     nperps: {
@@ -818,7 +818,7 @@ var match = {
 ```
 
 Wybieramy ten największy atak:
-```
+```js
 var sort = {
   $sort: {
     nperps: -1
@@ -831,14 +831,14 @@ var limit = {
 ```
 
 Łączymy agregację w całość:
-```
+```js
 var aggregate8 = db.terrorism.aggregate([match, sort, limit], {
   explain: false
 }).pretty();
 ```
 
 Wynik (dla pełnego obrazu wynikiem jest cały obiekt):
-```
+```js
 {
 	"_id" : ObjectId("591ead90043ea5be6ffcd0a5"),
 	"eventid" : NumberLong("199409100003"),
@@ -989,7 +989,7 @@ Wnioski:
 ### Java
 
 Dodatkowo zainstalowałem sterownik MongoDB do języka Java i wykonałem w nim przykładowe zapytanie. 
-Sterownik można zainstalować poprzez narzędzie Maven. Należy w projekcie umieścić plik [pom.xml](pom.xml) pom.xml o takiej treści i go zsynchronizować:
+Sterownik można zainstalować poprzez narzędzie Maven. Należy w projekcie umieścić plik [pom.xml](pom.xml) o takiej treści i go zsynchronizować:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -1019,7 +1019,7 @@ Sterownik można zainstalować poprzez narzędzie Maven. Należy w projekcie umi
 </project>
 ```
 
-Niestety budowanie zapytań Mongo w Java jest dość uciążliwe, a składnia niezbyt przyjemna. Dość proste zapytanie wygląda [tak](Main.java) tak:
+Niestety budowanie zapytań Mongo w Java jest dość uciążliwe, a składnia niezbyt przyjemna. Dość proste zapytanie wygląda [tak](Main.java):
 ```java
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
