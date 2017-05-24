@@ -1,4 +1,4 @@
-#Projekt na egzamin - Marek Strzała
+# Projekt na egzamin - Marek Strzała
 
 
 Informacje o komputerze na którym były wykonywane obliczenia:
@@ -21,7 +21,7 @@ Informacje o komputerze na którym były wykonywane obliczenia:
 Rozmiar bazy: 133 MB.
 Liczba rekordów: 156 772.
 
-###Przykładowy rekord
+### Przykładowy rekord
 ```json
 {
 	"_id" : ObjectId("591ea3d5043ea5be6ffacb0d"),
@@ -165,7 +165,7 @@ Liczba rekordów: 156 772.
 }
 ```
 
-###Znaczenie kolumn
+### Znaczenie kolumn
 
 Dokładny opis wszystkich kolumn i założeń znajduję się w pliku [columns_meaning.pdf](columns_meaning.pdf) .
 W tym miejscu, ze względu na obszernosć opracowanych danych, przedstawione zostaną jedynie najważniejsze (lub  posiadające najmniej samoopisujące nazwy) kolumny z punktu widzenia stworzonych agregacji.
