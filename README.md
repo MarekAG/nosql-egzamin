@@ -22,7 +22,7 @@ Rozmiar bazy: 133 MB.
 Liczba rekordów: 156 772.
 
 ### Przykładowy rekord
-```json
+```js
 {
 	"_id" : ObjectId("591ea3d5043ea5be6ffacb0d"),
 	"eventid" : NumberLong("200701010003"),
@@ -197,7 +197,7 @@ W tym miejscu, ze względu na obszernosć opracowanych danych, przedstawione zos
 
 ### Import danych
 
-```shell
+```
 mongoimport --db nosql -c terrorism --type csv --headerline --file globalterrorismdb_0616dist.csv
 ```
 
