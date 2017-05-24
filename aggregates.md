@@ -1,4 +1,4 @@
-#Agregacje
+# Agregacje
 
 Wszystkie agregacje znajdują się w osobnych plikach i są gotowe do uruchomienia, schemat nazewnictwa:
 aggregate{nr agregacji w tym pliku}.js
@@ -91,7 +91,7 @@ Wynik pierwszego zapytania:
 { "region" : "Australasia & Oceania", "count" : 246 }
 
 ```
-![](/home/marekag/git/nosql-egzamin/a.jpeg) 
+![](a.jpeg) 
 Oraz drugiego:
 ```
 { "region" : "Middle East & North Africa", "count" : 29297 }
@@ -108,7 +108,7 @@ Oraz drugiego:
 { "region" : "Australasia & Oceania", "count" : 30 }
 
 ```
-![](/home/marekag/git/nosql-egzamin/b.jpeg) 
+![](b.jpeg) 
 
 
 Wnioski: 
