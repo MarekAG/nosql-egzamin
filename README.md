@@ -12,7 +12,7 @@ Informacje o komputerze na którym były wykonywane obliczenia:
 | Dysk                  | HGST 7200 RPM 750 GB HDD |
 | Baza danych           | MongoDB 3.4
 
-###Dane
+### Dane
 
 [Global Terrorism Database- Full Data File, June 2016 Release](https://www.kaggle.com/START-UMD/gtd).
 
